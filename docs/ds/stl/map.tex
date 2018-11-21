@@ -1,0 +1,116 @@
+
+\subsubsection{\texttt{map} 是啥鬼？}
+
+\texttt{map} 是利用红黑树实现的。
+
+当你在写程序的时候，可能需要存储一些信息，例如存储学生姓名对应的分数，例如：\texttt{Tom 0}，\texttt{Bob 100}，\texttt{Alan 100}。
+
+但是由于数组下标只能为非负整数，所以无法用姓名来存储，这个时候最简单的办法就是使用 STL 的 \texttt{map} 了！
+
+\texttt{map} 可任意类型为下标（在 \texttt{map} 中叫做 \texttt{key}，也就是索引），下面是 \texttt{map} 的模型：
+
+\begin{cppcode}
+map<类型名, 类型名> 你想给map起的名字
+\end{cppcode}
+
+其中两个类型名第一个是 \texttt{key}（索引，可以理解为数组的下标），第二个是 \texttt{value}（对应的元素）。例如上面的例子，我们可以这样的存储：
+
+\begin{cppcode}
+map<string, int> mp
+\end{cppcode}
+
+是不是感觉很神奇？
+
+\subsubsection{\texttt{map}  具体怎么使用？}
+
+\begin{itemize}
+\item \texttt{map} 添加元素
+\end{itemize}
+
+\begin{enumerate}
+\item 直接存，例如 \texttt{mp["Tom"]=0}
+\item 通过插入，例如 \texttt{mp.insert(pair<string,int>("Alan",100));}
+\item 初始化（ C++11 及以上）和数组差不多：
+\end{enumerate}
+
+\begin{cppcode}
+map<string, int> mp = {{"Tom", 0}, {"Bob", "100"}, {"Alan", 100}};
+\end{cppcode}
+
+\begin{itemize}
+\item \texttt{map} 查找删除元素
+\end{itemize}
+
+\begin{enumerate}
+\item 在你知道查找元素是啥的时候直接来就可以了，例如：\texttt{int grade=mp["Tom"]}
+\item 如果你知道了元素的下标，但是想知道这个元素是否已经存在 \texttt{map} 中，可以使用 \texttt{find} 函数。
+\end{enumerate}
+
+格式：\texttt{if(mp.find()==mp.end())}，意思是是否返回的是 \texttt{map} 的末尾，因为 \texttt{map} 如果没有查找到元素，迭代器会返回末尾。
+
+其中 \texttt{mp.end()} 返回指向 map 尾部的迭代器， 另外 也可以用 \texttt{mp.count(__key) != 0} 来判断
+
+\begin{enumerate}
+\item 如果你想知道 map 里全部的元素，那么最正确的做法使用迭代器了，如果你还不会，请查阅之前文章中的迭代器。
+\end{enumerate}
+
+\begin{cppcode}
+for (iter = mp.begin(); iter != mp.end(); iter++)
+  cout << iter->first << " " << iter->second << endl;
+\end{cppcode}
+
+其中 \texttt{mp.begin()} 返回指向 \texttt{map} 头部的迭代器
+
+当然，如果使用 C++11 （及以上）你还可以使用 C++11 的新特性 ，如下
+
+\begin{cppcode}
+for (auto &i : mp) {
+  printf("Key : %d, Value : %d\n", i.first, i.second);
+}
+\end{cppcode}
+
+\texttt{iter->first} 是 \texttt{key} 索引，例如 \texttt{Tom}，而 \texttt{iter->second} 是 \texttt{value}。
+
+如果你想删除 \texttt{Tom} 这个元素，则可以利用 \texttt{find} 函数找到 \texttt{Tom} ，然后再 \texttt{erase} 如下
+
+\begin{cppcode}
+map<string, int>::iterator it;
+it = mp.find("Tom");
+mp.erase(it)
+\end{cppcode}
+
+如果你想清空所有的元素，可以直接 \texttt{mp.clear()}
+
+\begin{itemize}
+\item 其他
+\end{itemize}
+
+我们刚才介绍了最常用的，下面是其他比较常用的：
+
+\begin{itemize}
+\item \texttt{count()} 返回指定元素出现的次数 ，例如 \texttt{mp.count()}
+\item \texttt{swap()} 可以交换两个 \texttt{map} ，例如 \texttt{swap(m1,m2)}
+\item \texttt{size()} 返回 \texttt{map} 中元素的个数
+\item \texttt{empty()} 如果 \texttt{map} 为空则返回 \texttt{true}，例如 \texttt{mp.empty()}。
+\end{itemize}
+
+\subsubsection{\texttt{map} 常数靠得住吗？}
+
+一般情况下是可以的。无论查询，插入，删除的复杂度都是 $O(\log N)$，遍历是 $O(N)$。
+
+不过有的时候不会满足啊！我只想查询元素，插入元素，但是时间不够咋办？请往下看！
+
+\begin{itemize}
+\item 由于 NOIP 不资瓷吸氧（开启 O2 优化），所以 NOIP 要注意是否会被卡
+\end{itemize}
+
+\subsubsection{更快：基于 \texttt{Hash} 实现的 \texttt{map}！}
+
+\begin{NOTE}{note}{}
+C++11 及以后使用 \texttt{std::unordered_map}，在 \texttt{<unordered_map>} 头文件中之前的版本可以使用 \texttt{std::tr1::unordered_map}，在 \texttt{<tr1/unordered_map>} 头文件中
+\end{NOTE}
+
+
+这个 \texttt{map} 的名字就是 \texttt{unordered_map} 了，它的查询，插入，删除的复杂度几乎是 $O(1)$ 级别（所有的操作几乎和 \texttt{map}一样（注意 \texttt{unordered_map} 用迭代器遍历是无序的）。
+
+但是在最坏情况下（产生大量 hash 冲突时），\texttt{unordered_map}的各项操作的时间复杂度可达$O(n^2)$ 。\href{http://codeforces.com/blog/entry/62393}{ （详情见 Codeforces 上发表的一篇卡 unordered\_map 的文章） } 而且它的遍历速度会很慢，空间占用的会更大。

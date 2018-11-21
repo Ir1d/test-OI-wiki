@@ -1,0 +1,63 @@
+
+\section{C / C++ 标准库中的字符串}
+
+\subsection{C 标准库}
+
+C 标准库是在对字符数组进行操作
+
+\subsubsection{strlen}
+
+\texttt{int strlen(const char *str)} ：返回从 \texttt{str[0]} 开始直到 \texttt{'\0'} 的字符数。注意，未开启 O2 优化时，该操作写在循环条件中复杂度是 $\Theta(N)$ 的。
+
+\subsubsection{printf}
+
+\texttt{printf("%s", s)}：用 \texttt{%s} 来输出一个字符串（字符数组）。
+
+\subsubsection{scanf}
+
+\texttt{scanf("%s", s)}：用 \texttt{%s} 来读入一个字符串（字符数组）。
+
+\subsubsection{sscanf}
+
+\texttt{sscanf(const char *__source, const char *__format, ...)}：从字符串\texttt{__source}里读取变量，比如\texttt{sscanf(str,"%d",&a)}。
+
+\subsubsection{sprintf}
+
+\texttt{sprintf(char *__stream, const char *__format, ...)}：将\texttt{__format}字符串里的内容输出到\texttt{__stream}中，比如\texttt{sprintf(str,"%d",i)}。
+
+\subsubsection{strcmp}
+
+\texttt{int strcmp(const char *str1, const char *str2)}：按照字典序比较 \texttt{str1 str2} 若 \texttt{str1} 字典序小返回负值， 一样返回 0 ，大返回正值 请注意，不要简单的认为只有 \texttt{0, 1, -1}  三种，在不同平台下的返回值都遵循正负，但并非都是 \texttt{0, 1, -1}
+
+\subsubsection{strcpy}
+
+\texttt{char *strcpy(char *str, const char *src)} : 把 \texttt{src} 中的字符复制到 \texttt{str} 中， \texttt{str} \texttt{src} 均为字符数组头指针， 返回值为 \texttt{str} 包含空终止符号 \texttt{'\0'} 。
+
+\subsubsection{strncpy}
+
+\texttt{char *strncpy(char *str, const char *src, int cnt)} ：复制至多 \texttt{cnt} 个字符到 \texttt{str} 中，若 \texttt{src} 终止而数量未达 \texttt{cnt} 则写入空字符到 \texttt{str} 直至写入总共 \texttt{cnt} 个字符。
+
+\subsubsection{strcat}
+
+\texttt{char *strcat(char *str1, const char *str2)} : 将 \texttt{str2} 接到 \texttt{str1} 的结尾，用 \texttt{*str2} 替换 \texttt{str1} 末尾的 \texttt{'\0'}  返回 \texttt{str1} 。
+
+\subsubsection{strstr}
+
+\subsubsection{strchr}
+
+\subsubsection{strrchr}
+
+\subsection{C++ 标准库}
+
+C++ 标准库是在对字符串对象进行操作，同时也提供对字符数组的兼容。
+
+\subsubsection{std::string}
+
+\begin{itemize}
+\item 赋值运算符 \texttt{=} 右侧可以是 \texttt{const string / string / const char* / char*}。
+\item 访问运算符 \texttt{[cur]} 返回 \texttt{cur} 位置的引用。
+\item 访问函数 \texttt{data() / c_str()} 返回一个\texttt{const char*} 指针, 内容与该 \texttt{string} 相同。
+\item 容量函数 \texttt{size()} 返回字符串字符个数。
+\item 还有一些其他的函数如 \texttt{find()} 找到并返回某字符位置。
+\item \texttt{std :: string} 重载了比较逻辑运算符，复杂度是 $\Theta(N)$ 的。
+\end{itemize}
