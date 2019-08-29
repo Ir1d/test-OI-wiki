@@ -11,6 +11,8 @@ public_folder: "/images/uploads"
 
 collections:
   - name: "doc"
+    identifier_field: "author"
+    extension: "md"
     label: "Doc"
     folder: "docs"
     create: true
@@ -18,4 +20,3 @@ collections:
     fields:
       - {label: "Title", name: "title", widget: "string"}
       - {label: "Body", name: "body", widget: "markdown"}
-      - {label: "Publish Date", name: "date", widget: "string"}
