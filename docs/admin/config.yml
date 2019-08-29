@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: Ir1d/OI-wiki
+  repo: Ir1d/test-OI-wiki
   open_authoring: true
 
 # This line should *not* be indented
